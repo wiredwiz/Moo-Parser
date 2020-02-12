@@ -7,25 +7,32 @@ options { tokenVocab=MooLexer; }
  */
 
 code
+	: statementList
+	;
+
+statementList
 	: statement*
 	;
 
 statement
 	: expression SEMI
+	| ifStatement
 	;
+
+ifStatement
+	: IF '(' expression ')' statementList elseifStatement* elseStatement+? endifStatement;
+
+elseifStatement
+	: ELSEIF '(' expression ')' statementList;
+
+elseStatement
+	: ELSE statementList;
+
+endifStatement
+	: ENDIF;
 
 list
-	: '{' ((listItem) (COMMA listItem)*)?  '}'
-	;
-
-listItem
-	: ERROR
-	| STRING
-	| OBJECT
-	| NUMBER
-	| FLOAT
-	| LIST
-	| expression
+	: '{' ((expression) (COMMA expression)*?)?  '}'
 	;
 
 expression
@@ -34,16 +41,16 @@ expression
 	| expression '[' (expression '..' (expression | '$')) ']'							#RangeIndexedExpression
 	| coreProperty																		#CorePropertyExpression
 	| propertyAccess																	#PropertyAccessExpression
-	| expression verb '(' (argumentList)* ')'											#VerbCallExpression
-	| DOLLAR IDENTIFIER '(' (argumentList)* ')'											#CoreVerbCallExpression
-	| IDENTIFIER '(' (argumentList)* ')'												#BuiltinFunctionCallExpression
+	| expression verb '(' callArguments ')'												#VerbCallExpression
+	| DOLLAR IDENTIFIER '(' callArguments ')'											#CoreVerbCallExpression
+	| IDENTIFIER '(' callArguments ')'													#BuiltinFunctionCallExpression
 	| '!' expression																	#NegationExpression
 	| '^' expression																	#PowerExpression
-	| expression ('*' | '/' | '%') expression											#MultiplyDivideModulusExpression
-	| expression ('+' | '-') expression													#PlusMinusExpression
-	| expression (IN | '<' | '>' | '==' | '!=' | '<=' | '>=') expression				#ComparisonExpression
-	| expression ('||' | '&&') expression												#LogicalAndOrExpression
-	| expression '=' expression															#AssignmentExpression
+	| expression operator=('*' | '/' | '%') expression									#MultiplyDivideModulusExpression
+	| expression operator=('+' | '-') expression										#PlusMinusExpression
+	| expression operator=(IN | '<' | '>' | '==' | '!=' | '<=' | '>=') expression		#ComparisonExpression
+	| expression operator=('||' | '&&') expression										#LogicalAndOrExpression
+	| expression operator='=' expression												#AssignmentExpression
 	| ERROR																				#ErrorLiteralExpression
 	| STRING																			#StringLiteralExpression
 	| OBJECT																			#ObjectLiteralExpression
@@ -64,8 +71,8 @@ property
 verb
 	: ':' (IDENTIFIER | '(' expression ')');
 
-argumentList
-	: expression (COMMA expression)*;
+callArguments
+	: (expression (COMMA expression)*?)?;
 
 coreProperty
 	: DOLLAR IDENTIFIER;
