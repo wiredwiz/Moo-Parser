@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Moo_Parser</RootNamespace>
+    <AssemblyVersion>1.0.20043.4</AssemblyVersion>
+    <FileVersion>1.0.20043.4</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="MooLexer.g4">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="MooParser.g4">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+
+</Project>
