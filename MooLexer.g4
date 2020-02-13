@@ -70,6 +70,10 @@ EXCEPT
 	: E X C E P T
 	;
 
+FINALLY
+	: F I N A L L Y
+	;
+
 ENDTRY
 	: E N D T R Y
 	;
