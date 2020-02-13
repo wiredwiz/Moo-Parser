@@ -181,6 +181,9 @@ OP_LESS_THAN_OR_EQUAL_TO
 OP_GREATER_THAN_OR_EQUAL_TO
 	: '>=';
 
+ACTION
+	: '=>';
+
 RANGE
 	: '..';
 
