@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Moo_Parser</RootNamespace>
-    <AssemblyVersion>1.0.20043.4</AssemblyVersion>
-    <FileVersion>1.0.20043.4</FileVersion>
+    <AssemblyVersion>1.0.20043.6</AssemblyVersion>
+    <FileVersion>1.0.20043.6</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +12,12 @@
       <Generator>MSBuild:Compile</Generator>
     </None>
     <None Update="MooParser.g4">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="MooSharpLexer.g4">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="MooSharpParser.g4">
       <Generator>MSBuild:Compile</Generator>
     </None>
   </ItemGroup>

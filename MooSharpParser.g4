@@ -115,6 +115,7 @@ expression
 	| OBJECT																			#ObjectLiteralExpression
 	| NUMBER																			#NumberLiteralExpression
 	| FLOAT																				#FloatLiteralExpression
+	| BINARY																			#BinaryLiteralExpression
 	| list																				#ListLiteralExpression
 	| dictionary																		#DictionaryLiteralExpression
 	| IDENTIFIER																		#IdentifierExpression

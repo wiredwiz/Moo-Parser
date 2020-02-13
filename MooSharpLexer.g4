@@ -279,6 +279,12 @@ OBJECT
 STRING 
 	: '"' ( ESC | [ !] | [#-[] | [\]-~] | [\t] )* '"';
 
+BINARY 
+	: '~"' ( HEXADECIMAL )* '"';
+
+HEXADECIMAL
+	: '~' (LETTER | DIGIT) (LETTER | DIGIT);
+
 NUMBER
 	: DIGIT+;
 
