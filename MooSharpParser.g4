@@ -112,11 +112,11 @@ expression
 	| expression operator='+=' expression												#AddAssignmentExpression
 	| expression operator='-=' expression												#SubtractAssignmentExpression
 	| ERROR																				#ErrorLiteralExpression
+	| BINARY																			#BinaryLiteralExpression
 	| STRING																			#StringLiteralExpression
 	| OBJECT																			#ObjectLiteralExpression
 	| NUMBER																			#NumberLiteralExpression
 	| FLOAT																				#FloatLiteralExpression
-	| BINARY																			#BinaryLiteralExpression
 	| list																				#ListLiteralExpression
 	| dictionary																		#DictionaryLiteralExpression
 	| IDENTIFIER																		#IdentifierExpression

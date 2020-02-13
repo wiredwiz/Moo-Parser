@@ -120,6 +120,12 @@ OPEN_QUOTE
 SINGLE_QUOTE
 	: '\'';
 
+DICT_OPEN
+	: '[[';
+
+DICT_CLOSE
+	: ']]';
+
 LEFT_BRACKET
 	: '[';
 
@@ -243,12 +249,6 @@ OP_GREATER_THAN_OR_EQUAL_TO
 ACTION
 	: '=>';
 
-DICT_OPEN
-	: '[[';
-
-DICT_CLOSE
-	: ']]';
-
 RANGE
 	: '..';
 
@@ -276,14 +276,14 @@ OBJECT
 	| '#-' DIGIT+
 	;
 
-STRING 
-	: '"' ( ESC | [ !] | [#-[] | [\]-~] | [\t] )* '"';
-
 BINARY 
-	: '~"' ( HEXADECIMAL )* '"';
+	: '~"' ('~' (LETTER | DIGIT) (LETTER | DIGIT))* '"';
 
 HEXADECIMAL
 	: '~' (LETTER | DIGIT) (LETTER | DIGIT);
+
+STRING 
+	: '"' ( ESC | [ !] | [#-[] | [\]-~] | [\t] )* '"';
 
 NUMBER
 	: DIGIT+;
