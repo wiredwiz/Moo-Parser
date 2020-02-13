@@ -3,7 +3,7 @@ lexer grammar MooLexer;
 channels { COMMENTS_CHANNEL }
 
 SINGLE_LINE_COMMENT
-	: '//' InputCharacter* -> channel(COMMENTS_CHANNEL);
+	: '//' INPUT_CHARACTER* -> channel(COMMENTS_CHANNEL);
 
 DELIMITED_COMMENT
 	: '/*' .*? '*/' -> channel(COMMENTS_CHANNEL);
@@ -109,7 +109,10 @@ SINGLE_QUOTE
 	: '\'';
 
 LEFT_BRACKET
-	: '[' -> pushMode(INDEXER);
+	: '[';
+
+RIGHT_BRACKET
+	: ']';
 
 LEFT_CURLY_BRACE
 	: '{';
@@ -174,6 +177,9 @@ OP_LESS_THAN_OR_EQUAL_TO
 OP_GREATER_THAN_OR_EQUAL_TO
 	: '>=';
 
+RANGE
+	: '..';
+
 ERROR
 	: 'E_NONE'
 	| 'E_TYPE'
@@ -201,45 +207,20 @@ OBJECT
 STRING 
 	: '"' ( ESC | [ !] | [#-[] | [\]-~] | [\t] )* '"';
 
+NUMBER
+	: DIGIT+;
+
 FLOAT
-	: DIGIT+ [.] (DIGIT*)? (EXPONENTNOTATION EXPONENTSIGN DIGIT+)? 
+	: DIGIT+ [.] (DIGIT*)? {_input.LA(1) != '.'}? (EXPONENTNOTATION EXPONENTSIGN DIGIT+)? 
 	| [.] DIGIT+ (EXPONENTNOTATION EXPONENTSIGN DIGIT+)? 
 	| DIGIT+ EXPONENTNOTATION EXPONENTSIGN DIGIT+
 	;
-
-NUMBER
-	: DIGIT+;
 
 IDENTIFIER
 	: (LETTER | DIGIT | UNDERSCORE)+
 	;
 
 LETTER
-	: LOWERCASE 
-	| UPPERCASE
-	;
-
-mode INDEXER;
-
-RANGE
-	: '..';
-
-RIGHT_BRACKET
-	: ']' -> popMode;
-
-OBJECT2
-	: ('#' DIGIT+
-	| '#-' DIGIT+) -> type(OBJECT)
-	;
-
-NUMBER2
-	: DIGIT+ -> type(NUMBER);
-
-IDENTIFIER2
-	: (LETTER2 | DIGIT | UNDERSCORE)+ -> type(IDENTIFIER)
-	;
-
-LETTER2
 	: LOWERCASE 
 	| UPPERCASE
 	;
@@ -266,7 +247,7 @@ fragment DIGIT
 fragment ESC 
 	: '\\"' | '\\\\' ;
 
-fragment InputCharacter
+fragment INPUT_CHARACTER
 	: ~[\r\n\u0085\u2028\u2029];
 
 fragment A : [aA];
