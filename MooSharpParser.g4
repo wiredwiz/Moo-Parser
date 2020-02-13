@@ -74,6 +74,7 @@ list
 
 dictionary
 	: '[[' ((expression) (COMMA expression)*?)? ']]'
+	;
 
 expression
 	: '(' expression ')'																#ParenthesisExpression
