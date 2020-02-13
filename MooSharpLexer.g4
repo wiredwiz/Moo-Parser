@@ -282,11 +282,6 @@ BINARY
 HEX
 	: '0x' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT;
 
-HEXDIGIT
-	: LETTER 
-	| DIGIT
-	;
-
 STRING 
 	: '"' ( ESC | [ !] | [#-[] | [\]-~] | [\t] )* '"';
 
@@ -306,6 +301,11 @@ IDENTIFIER
 LETTER
 	: LOWERCASE 
 	| UPPERCASE
+	;
+
+HEXDIGIT
+	: LETTER 
+	| DIGIT
 	;
 
 /* 
