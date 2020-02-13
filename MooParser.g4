@@ -80,7 +80,7 @@ expression
 	| expression '[' (expression | '$') ']'												#IndexedExpression
 	| expression '[' (expression '..' (expression | '$')) ']'							#RangeIndexedExpression
 	| coreProperty																		#CorePropertyExpression
-	| propertyAccess																	#PropertyAccessExpression
+	| expression property																#PropertyExpression
 	| expression verb '(' callArguments ')'												#VerbCallExpression
 	| DOLLAR IDENTIFIER '(' callArguments ')'											#CoreVerbCallExpression
 	| IDENTIFIER '(' callArguments ')'													#BuiltinFunctionCallExpression
@@ -101,10 +101,8 @@ expression
 	| IDENTIFIER																		#IdentifierExpression
 	;
 
-propertyAccess
-	: (coreProperty | OBJECT) property
-	| propertyAccess property
-	;
+coreProperty
+	: DOLLAR IDENTIFIER;
 
 property
 	: '.' (IDENTIFIER | '(' expression ')');
@@ -114,9 +112,6 @@ verb
 
 callArguments
 	: (expression (COMMA expression)*?)?;
-
-coreProperty
-	: DOLLAR IDENTIFIER;
 
 scatteringTarget
 	: scatteringTargetItem (COMMA scatteringTargetItem)*?;
