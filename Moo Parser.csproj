@@ -3,9 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Moo_Parser</RootNamespace>
-    <AssemblyVersion>1.0.20043.6</AssemblyVersion>
-    <FileVersion>1.0.20043.6</FileVersion>
+    <AssemblyVersion>1.0.20044.5</AssemblyVersion>
+    <FileVersion>1.0.20044.5</FileVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Antlr4" Version="4.6.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Antlr4.Runtime" Version="4.6.6" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Update="MooLexer.g4">
