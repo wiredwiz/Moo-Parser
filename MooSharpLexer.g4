@@ -87,7 +87,7 @@ ISA
 	;
 
 POW
-	: P O W
+	: P O W E R
 	;
 
 SPLICER

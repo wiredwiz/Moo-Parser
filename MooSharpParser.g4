@@ -93,7 +93,7 @@ expression
 	| '++' expression																	#PrefixIncrementExpression
 	| '--' expression																	#PrefixDecrementExpression
 	| expression '^' expression															#XorExpression
-	| expression POW expression															#PowerExpression
+	| expression POWER expression														#PowerExpression
 	| expression '>>' expression														#ShiftRightExpression
 	| expression '<<' expression														#ShiftLeftExpression
 	| expression operator=('*' | '/' | '%') expression									#MultiplyDivideModulusExpression
