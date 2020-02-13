@@ -86,7 +86,7 @@ ISA
 	: I S A
 	;
 
-POW
+POWER
 	: P O W E R
 	;
 
