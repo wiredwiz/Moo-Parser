@@ -113,6 +113,7 @@ expression
 	| expression operator='-=' expression												#SubtractAssignmentExpression
 	| ERROR																				#ErrorLiteralExpression
 	| BINARY																			#BinaryLiteralExpression
+	| HEX																				#HexLiteralExpression
 	| STRING																			#StringLiteralExpression
 	| OBJECT																			#ObjectLiteralExpression
 	| NUMBER																			#NumberLiteralExpression

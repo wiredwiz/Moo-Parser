@@ -277,10 +277,15 @@ OBJECT
 	;
 
 BINARY 
-	: '~"' ('~' (LETTER | DIGIT) (LETTER | DIGIT))* '"';
+	: '~"' ('~' HEXDIGIT HEXDIGIT)* '"';
 
-HEXADECIMAL
-	: '~' (LETTER | DIGIT) (LETTER | DIGIT);
+HEX
+	: '0x' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT;
+
+HEXDIGIT
+	: LETTER 
+	| DIGIT
+	;
 
 STRING 
 	: '"' ( ESC | [ !] | [#-[] | [\]-~] | [\t] )* '"';
