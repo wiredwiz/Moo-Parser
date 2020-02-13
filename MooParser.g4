@@ -85,7 +85,7 @@ expression
 	| DOLLAR IDENTIFIER '(' callArguments ')'											#CoreVerbCallExpression
 	| IDENTIFIER '(' callArguments ')'													#BuiltinFunctionCallExpression
 	| '!' expression																	#NegationExpression
-	| '^' expression																	#PowerExpression
+	| expression '^' expression															#PowerExpression
 	| expression operator=('*' | '/' | '%') expression									#MultiplyDivideModulusExpression
 	| expression operator=('+' | '-') expression										#PlusMinusExpression
 	| expression operator=(IN | '<' | '>' | '==' | '!=' | '<=' | '>=') expression		#ComparisonExpression
