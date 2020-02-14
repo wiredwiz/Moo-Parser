@@ -104,6 +104,7 @@ expression
 	| expression operator='=' expression												#AssignmentExpression
 	| expression operator='>>=' expression												#RightShiftAssignmentExpression
 	| expression operator='<<=' expression												#LeftShiftAssignmentExpression
+	| expression operator='~=' expression												#ComplimentAssignmentExpression
 	| expression operator='^=' expression												#XorAssignmentExpression
 	| expression operator='*=' expression												#MultiplyAssignmentExpression
 	| expression operator='/=' expression												#DivideAssignmentExpression
