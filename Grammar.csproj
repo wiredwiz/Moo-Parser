@@ -2,9 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Moo_Parser</RootNamespace>
-    <AssemblyVersion>1.0.20044.5</AssemblyVersion>
-    <FileVersion>1.0.20044.5</FileVersion>
+    <RootNamespace>Org.Edgerunner.MooSharp.Language.Grammar</RootNamespace>
+    <AssemblyVersion>1.0.20048.1</AssemblyVersion>
+    <FileVersion>1.0.20048.1</FileVersion>
+    <Description>A parser library for parsing the Moo and Moo# programming languages.</Description>
+    <Company>Edgerunner</Company>
+    <Authors>Thaddeus Ryker</Authors>
+    <PackageTags>Moo</PackageTags>
+    <RepositoryUrl>https://bitbucket.org/wiredwiz/moo-parser</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageProjectUrl>https://bitbucket.org/wiredwiz/moo-parser</PackageProjectUrl>
+    <AssemblyName>Org.Edgerunner.MooSharp.Language.Grammar</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
