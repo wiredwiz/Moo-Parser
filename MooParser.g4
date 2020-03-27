@@ -7,7 +7,8 @@ options { tokenVocab=MooLexer; }
  */
 
 code
-	: statementList? EOF
+	: statementList EOF
+	| EOF
 	;
 
 statementList

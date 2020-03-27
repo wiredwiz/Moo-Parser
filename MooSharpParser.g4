@@ -1,13 +1,17 @@
 parser grammar MooSharpParser;
 
-options { tokenVocab=MooSharpLexer; }
+options 
+{ 
+	tokenVocab=MooSharpLexer; 
+}
 
 /*
  * Parser Rules
  */
 
 code
-	: statementList? EOF
+	: statementList EOF
+	| EOF
 	;
 
 statementList
