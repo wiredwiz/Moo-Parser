@@ -83,7 +83,7 @@ dictionary
 expression
 	: '(' expression ')'																#ParenthesisExpression
 	| expression '?' expression ':' expression											#ConditionalExpression
-	| '`' expression '!' exceptionCodes '=>' expression '\''							#ErrorCatchExpression
+	| '`' expression '!' exceptionCodes ('=>' expression)? '\''							#ErrorCatchExpression
 	| '@' expression																	#SplicerExpression
 	| expression '[' (expression | '$') ']'												#IndexedExpression
 	| expression '[' (expression '..' (expression | '$')) ']'							#RangeIndexedExpression
