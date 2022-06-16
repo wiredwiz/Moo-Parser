@@ -1,0 +1,69 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Org.Edgerunner.MooSharp.Language.Grammar</RootNamespace>
+    <AssemblyVersion>1.0.20048.1</AssemblyVersion>
+    <FileVersion>1.0.20048.1</FileVersion>
+    <Description>A parser library for parsing the Moo and Moo# programming languages.</Description>
+    <Company>Edgerunner</Company>
+    <Authors>Thaddeus Ryker</Authors>
+    <PackageTags>Moo</PackageTags>
+    <RepositoryUrl>https://bitbucket.org/wiredwiz/moo-parser</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageProjectUrl>https://bitbucket.org/wiredwiz/moo-parser</PackageProjectUrl>
+    <AssemblyName>Org.Edgerunner.MooSharp.Language.Grammar</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Antlr4 Include="MooLexer.g4">
+      <Listener>false</Listener>
+      <Visitor>false</Visitor>
+      <GAtn>true</GAtn>
+      <Package>Org.Edgerunner.MooSharp.Language.Grammar</Package>
+      <Error>true</Error>
+    </Antlr4>
+    <Antlr4 Include="MooParser.g4">
+      <Listener>false</Listener>
+      <Visitor>false</Visitor>
+      <GAtn>true</GAtn>
+      <Package>Org.Edgerunner.MooSharp.Language.Grammar</Package>
+      <Error>true</Error>
+    </Antlr4>
+    <Antlr4 Include="MooSharpLexer.g4">
+      <Listener>false</Listener>
+      <Visitor>false</Visitor>
+      <GAtn>true</GAtn>
+      <Package>Org.Edgerunner.MooSharp.Language.Grammar</Package>
+      <Error>true</Error>
+    </Antlr4>
+    <Antlr4 Include="MooSharpParser.g4">
+      <Listener>false</Listener>
+      <Visitor>false</Visitor>
+      <GAtn>true</GAtn>
+      <Package>Org.Edgerunner.MooSharp.Language.Grammar</Package>
+      <Error>true</Error>
+    </Antlr4>
+  </ItemGroup>  
+
+  <ItemGroup>
+    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.8.0" />
+    <PackageReference Include="Antlr4BuildTasks" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="MooLexer.g4">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="MooParser.g4">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="MooSharpLexer.g4">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="MooSharpParser.g4">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+
+</Project>
