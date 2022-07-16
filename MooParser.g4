@@ -78,13 +78,14 @@ expression
 	| expression '?' expression '|' expression											#ConditionalExpression
 	| '`' expression '!' exceptionCodes ('=>' expression)? '\''							#ErrorCatchExpression
 	| '@' expression																	#SplicerExpression
-	| expression '[' (expression | '$') ']'												#IndexedExpression
-	| expression '[' (expression '..' (expression | '$')) ']'							#RangeIndexedExpression
+	| expression '[' expression ']'														#IndexedExpression
+	| expression '[' (expression '..' expression) ']'									#RangeIndexedExpression
 	| coreProperty																		#CorePropertyExpression
 	| expression property																#PropertyExpression
 	| expression verb '(' callArguments ')'												#VerbCallExpression
 	| DOLLAR IDENTIFIER '(' callArguments ')'											#CoreVerbCallExpression
 	| IDENTIFIER '(' callArguments ')'													#BuiltinFunctionCallExpression
+	| '-' expression                                                                    #UnaryMinusExpression
 	| '!' expression																	#NegationExpression
 	| expression '^' expression															#PowerExpression
 	| expression operator=('*' | '/' | '%') expression									#MultiplyDivideModulusExpression
@@ -93,6 +94,7 @@ expression
 	| expression operator=('||' | '&&') expression										#LogicalAndOrExpression
 	| '{' scatteringTarget '}' '=' expression											#ScatteringAssignmentExpression
 	| expression operator='=' expression												#AssignmentExpression
+	| DOLLAR																			#LengthExpression
 	| ERROR																				#ErrorLiteralExpression
 	| STRING																			#StringLiteralExpression
 	| OBJECT																			#ObjectLiteralExpression
