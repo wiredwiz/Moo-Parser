@@ -2,8 +2,10 @@ lexer grammar MooLexer;
 
 channels { COMMENTS_CHANNEL }
 
+/* wishful thinking
 SINGLE_LINE_COMMENT
 	: '//' INPUT_CHARACTER* -> channel(COMMENTS_CHANNEL);
+*/
 
 DELIMITED_COMMENT
 	: '/*' .*? '*/' -> channel(COMMENTS_CHANNEL);
