@@ -84,6 +84,14 @@ IN
 	: I N
 	;
 
+ANY
+	: A N Y
+	;
+
+CORE_REFERENCE
+	: '$' (LETTER | DIGIT | UNDERSCORE)+
+	;
+
 SPLICER
 	: '@';
 
@@ -190,22 +198,22 @@ RANGE
 	: '..';
 
 ERROR
-	: 'E_NONE'
-	| 'E_TYPE'
-	| 'E_DIV'
-	| 'E_PERM'
-	| 'E_PROPNF'
-	| 'E_VERBNF'
-	| 'E_VARNF'
-	| 'E_INVIND'
-	| 'E_RECMOVE'
-	| 'E_MAXREC'
-	| 'E_RANGE'
-	| 'E_ARGS'
-	| 'E_NACC'
-	| 'E_INVARG'
-	| 'E_QUOTA'
-	| 'E_FLOAT'
+	: E '_' N O N E
+	| E '_' T Y P E
+	| E '_' D I V
+	| E '_' P E R M
+	| E '_' P R O P N F
+	| E '_' V E R B N F
+	| E '_' V A R N F
+	| E '_' I N V I N D
+	| E '_' R E C M O V E
+	| E '_' M A X R E C
+	| E '_' R A N G E
+	| E '_' A R G S
+	| E '_' N A C C
+	| E '_' I N V A R G
+	| E '_' Q U O T A
+	| E '_' F L O A T
 	;
 
 OBJECT

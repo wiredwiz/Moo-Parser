@@ -1,6 +1,6 @@
-parser grammar MooParser;
+parser grammar EdgerunnerMooParser;
 
-options { tokenVocab=MooLexer; }
+options { tokenVocab=EdgerunnerMooLexer; }
 
 /*
  * Parser Rules
@@ -116,6 +116,14 @@ list
 	: '{' ((expression) (COMMA expression)*?)?  '}'
 	;
 
+map
+	: '[' ((mapEntryExpression) (COMMA mapEntryExpression)*?)? ']'
+	;
+
+mapEntryExpression
+	: STRING '->' expression
+	;
+
 expression
 	: '(' expression ')'																#ParenthesisExpression
 	| expression '?' expression '|' expression											#ConditionalExpression
@@ -128,18 +136,32 @@ expression
 	| expression verb_access '(' callArguments ')'										#VerbCallExpression
 	| CORE_REFERENCE '(' callArguments ')'												#CoreVerbCallExpression
 	| IDENTIFIER '(' callArguments ')'													#BuiltinFunctionCallExpression
-	| '-' expression                                                                    #UnaryMinusExpression
-	| '!' expression																	#NegationExpression
-	| expression '^' expression															#PowerExpression
+	| expression '++'																	#PostfixIncrementExpression
+	| expression '--'																	#PostfixDecrementExpression
+	| '++' expression																	#PrefixIncrementExpression
+	| '--' expression																	#PrefixDecrementExpression
+	| operator='-' expression                                                           #UnaryMinusExpression
+	| operator='~' expression                                                           #ComplimentExpression
+	| operator='!' expression															#NegationExpression
+	| expression operator='^' expression												#PowerExpression
 	| expression operator=('*' | '/' | '%') expression									#MultiplyDivideModulusExpression
 	| expression operator=('+' | '-') expression										#PlusMinusExpression
+	| expression operator=('>>' | '<<') expression                                      #BitShiftExpression
 	| expression operator=(IN | '<' | '>' | '==' | '!=' | '<=' | '>=') expression		#ComparisonExpression
 	| expression operator=('||' | '&&') expression										#LogicalAndOrExpression
-	| '{' scatteringTarget '}' '=' expression											#ScatteringAssignmentExpression
+	| expression operator=('&.' | '|.' | '^.') expression                               #BitwiseAndOrXorExpression
+	| '{' scatteringTarget '}' operator='=' expression									#ScatteringAssignmentExpression
 	| lhs=expression operator='=' rhs=expression										#AssignmentExpression
-	| literal																			#LiteralExpression
+	| lhs=expression operator='^=' rhs=expression										#PowerAssignmentExpression
+	| lhs=expression operator='*=' rhs=expression										#MultiplyAssignmentExpression
+	| lhs=expression operator='/=' rhs=expression										#DivideAssignmentExpression
+	| lhs=expression operator='%=' rhs=expression										#ModulusAssignmentExpression
+	| lhs=expression operator='+=' rhs=expression										#AddAssignmentExpression
+	| lhs=expression operator='-=' rhs=expression										#SubtractAssignmentExpression
+	| literal                                                                           #LiteralExpression
 	| IDENTIFIER																		#IdentifierExpression
 	;
+
 
 literal
 	: ERROR
@@ -147,13 +169,15 @@ literal
 	| OBJECT
 	| NUMBER
 	| FLOAT
-	| list;
+	| BOOLEAN
+	| list
+	| map;
 
 index_access
-	: '[' ('$' | expression) ']';
+	: '[' ('^' | '$' | expression) ']';
 
 range_access
-	: '[' expression '..' ('$' | expression) ']';
+	: '[' ('^' | expression) '..' ('$' | expression) ']';
 
 property_access
 	: '.' (IDENTIFIER | '(' expression ')');

@@ -59,9 +59,13 @@ tryExceptStatement
 exceptStatement
 	: EXCEPT IDENTIFIER? '(' exceptionCodes ')' statementList;
 
+exceptionCode
+	: IDENTIFIER | ERROR;
+
 exceptionCodes
 	: '@' expression
-	| ( IDENTIFIER | (ERROR (COMMA ERROR)*?));
+	| ANY
+	| (exceptionCode (COMMA exceptionCode)*?);
 
 tryFinallyStatement
 	: TRY statementList FINALLY statementList ENDTRY;
@@ -87,10 +91,10 @@ expression
 	| '@' expression																	#SplicerExpression
 	| expression '[' (expression | '$') ']'												#IndexedExpression
 	| expression '[' (expression '..' (expression | '$')) ']'							#RangeIndexedExpression
-	| coreProperty																		#CorePropertyExpression
+	| CORE_REFERENCE																	#CorePropertyExpression
 	| expression property																#PropertyExpression
 	| expression verb '(' callArguments ')'												#VerbCallExpression
-	| DOLLAR IDENTIFIER '(' callArguments ')'											#CoreVerbCallExpression
+	| CORE_REFERENCE '(' callArguments ')'												#CoreVerbCallExpression
 	| IDENTIFIER '(' callArguments ')'													#BuiltinFunctionCallExpression
 	| '!' expression																	#NegationExpression
 	| '~' expression																	#ComplimentExpression

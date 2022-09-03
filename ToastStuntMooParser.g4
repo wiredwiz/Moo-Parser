@@ -7,9 +7,12 @@ options { tokenVocab=ToastStuntMooLexer; }
  */
 
 code
-	: statementList EOF
-	| EOF
+	: statementList endOfFile
+	| endOfFile
 	;
+
+endOfFile
+	: EOF;
 
 statementList
 	: statement*
@@ -28,33 +31,63 @@ statement
 	| continueStatement SEMI
 	;
 
+ifClause
+	: IF '(' expression ')';
+
 ifStatement
-	: IF '(' expression ')' statementList elseifStatement* (elseStatement+)? ENDIF;
+	: ifClause statementList elseifStatement* (elseStatement+)? endifStatement;
+
+elseifClause
+	: ELSEIF '(' expression ')';
 
 elseifStatement
-	: ELSEIF '(' expression ')' statementList;
+	: elseifClause statementList;
 
 elseStatement
 	: ELSE statementList;
 
+endifStatement
+	: ENDIF;
+
+forClause
+	: FOR IDENTIFIER IN '(' expression ')'
+	| FOR IDENTIFIER IN '[' (expression '..' (expression | '$')) ']';
+
 forStatement
-	: FOR IDENTIFIER IN '(' expression ')' statementList ENDFOR
-	| FOR IDENTIFIER IN '[' (expression '..' (expression | '$')) ']' statementList ENDFOR;
+	: forClause statementList endforStatement;
+
+endforStatement
+	: ENDFOR;
+
+whileClause
+	: WHILE IDENTIFIER? '(' expression ')';
 
 whileStatement
-	: WHILE IDENTIFIER? '(' expression ')' statementList ENDWHILE;
+	: whileClause statementList endwhileStatement;
+
+endwhileStatement
+	: ENDWHILE;
+
+forkClause
+	: FORK '(' expression ')';
 
 forkStatement
-	: FORK '(' expression ')' statementList ENDFORK;
+	: forkClause statementList endforkStatement;
+
+endforkStatement
+	: ENDFORK;
 
 returnStatement
 	: RETURN (expression)?;
 
 tryExceptStatement
-	: TRY statementList exceptStatement+ ENDTRY;
+	: TRY statementList exceptStatement+ endtryStatement;
 
 exceptStatement
-	: EXCEPT IDENTIFIER? '(' exceptionCodes ')' statementList;
+	:exceptClause statementList;
+
+exceptClause
+	: EXCEPT IDENTIFIER? '(' exceptionCodes ')';
 
 exceptionCode
 	: IDENTIFIER | ERROR;
@@ -65,7 +98,13 @@ exceptionCodes
 	| (exceptionCode (COMMA exceptionCode)*?);
 
 tryFinallyStatement
-	: TRY statementList FINALLY statementList ENDTRY;
+	: TRY statementList finallyStatement endtryStatement;
+
+finallyStatement
+	: FINALLY statementList;
+
+endtryStatement
+	: ENDTRY;
 
 breakStatement
 	: BREAK IDENTIFIER?;
@@ -97,18 +136,18 @@ expression
 	| expression verb_access '(' callArguments ')'										#VerbCallExpression
 	| CORE_REFERENCE '(' callArguments ')'												#CoreVerbCallExpression
 	| IDENTIFIER '(' callArguments ')'													#BuiltinFunctionCallExpression
-	| operator='-' expression                                                                    #UnaryMinusExpression
-	| operator='~' expression                                                                    #ComplimentExpression
-	| operator='!' expression																	#NegationExpression
-	| expression operator='^' expression															#PowerExpression
+	| operator='-' expression															#UnaryMinusExpression
+	| operator='~' expression															#ComplimentExpression
+	| operator='!' expression															#NegationExpression
+	| expression operator='^' expression												#PowerExpression
 	| expression operator=('*' | '/' | '%') expression									#MultiplyDivideModulusExpression
 	| expression operator=('+' | '-') expression										#PlusMinusExpression
 	| expression operator=('>>' | '<<') expression                                      #BitShiftExpression
 	| expression operator=(IN | '<' | '>' | '==' | '!=' | '<=' | '>=') expression		#ComparisonExpression
 	| expression operator=('||' | '&&') expression										#LogicalAndOrExpression
 	| expression operator=('&.' | '|.' | '^.') expression                               #BitwiseAndOrXorExpression
-	| '{' scatteringTarget '}' operator='=' expression											#ScatteringAssignmentExpression
-	| expression operator='=' expression												#AssignmentExpression
+	| '{' scatteringTarget '}' operator='=' expression									#ScatteringAssignmentExpression
+	| lhs=expression operator='=' rhs=expression										#AssignmentExpression
 	| literal                                                                           #LiteralExpression
 	| IDENTIFIER																		#IdentifierExpression
 	;

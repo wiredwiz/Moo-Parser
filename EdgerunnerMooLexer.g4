@@ -1,9 +1,11 @@
-lexer grammar MooSharpLexer;
+lexer grammar EdgerunnerMooLexer;
 
 channels { COMMENTS_CHANNEL }
 
+/* wishful thinking
 SINGLE_LINE_COMMENT
 	: '//' INPUT_CHARACTER* -> channel(COMMENTS_CHANNEL);
+*/
 
 DELIMITED_COMMENT
 	: '/*' .*? '*/' -> channel(COMMENTS_CHANNEL);
@@ -82,14 +84,6 @@ IN
 	: I N
 	;
 
-ISA
-	: I S A
-	;
-
-POWER
-	: P O W E R
-	;
-
 ANY
 	: A N Y
 	;
@@ -113,6 +107,9 @@ SEMI
 COLON
 	: ':';
 
+RANGE
+	: '..';
+
 DOT
 	: '.';
 
@@ -127,12 +124,6 @@ OPEN_QUOTE
 
 SINGLE_QUOTE
 	: '\'';
-
-DICT_OPEN
-	: '[[';
-
-DICT_CLOSE
-	: ']]';
 
 LEFT_BRACKET
 	: '[';
@@ -167,62 +158,11 @@ DIV
 PERCENT
 	: '%';
 
-AMP
-	: '&';
-
 PIPE
 	: '|';
 
-TILDE
-	: '~';
-
-SHIFT_RIGHT
-	: '>>';
-
-SHIFT_LEFT
-	: '<<';
-
 CARET
 	: '^';
-
-INCREMENT
-	: '++';
-
-DECREMENT
-	: '--';
-
-MULTIPLY_ASSIGNMENT
-	: '*=';
-
-DIVIDE_ASSIGNMENT
-	: '/=';
-
-ADD_ASSIGNMENT
-	: '+=';
-
-SUBTRACT_ASSIGNMENT
-	: '-=';
-
-MODULUS_ASSIGNMENT
-	: '%=';
-
-COMPLIMENT_ASSIGNMENT
-	: '~=';
-
-XOR_ASSIGNMENT
-	: '^=';
-
-SHIFT_RIGHT_ASSIGNMENT
-	: '>>=';
-
-SHIFT_LEFT_ASSIGNMENT
-	: '<<=';
-
-AND_ASSIGNMENT
-	: '&=';
-
-OR_ASSIGNMENT
-	: '|=';
 
 ASSIGNMENT
 	: '=';
@@ -254,11 +194,65 @@ OP_LESS_THAN_OR_EQUAL_TO
 OP_GREATER_THAN_OR_EQUAL_TO
 	: '>=';
 
+OP_COMPLIMENT
+	: '~';
+
+OP_BITWISE_OR
+	: '|.';
+
+OP_BITWISE_AND
+	: '&.';
+
+OP_BITWISE_XOR
+	: '^.' {_input.La(1) != '.'}?;
+
+OP_SHIFT_RIGHT
+	: '>>';
+
+OP_SHIFT_LEFT
+	: '<<';
+
+OP_MAP_ASSIGN
+	: '->';
+
+OP_INCREMENT
+	: '++';
+
+OP_DECREMENT
+	: '--';
+
+OP_MULTIPLY_ASSIGNMENT
+	: '*=';
+
+OP_DIVIDE_ASSIGNMENT
+	: '/=';
+
+OP_ADD_ASSIGNMENT
+	: '+=';
+
+OP_SUBTRACT_ASSIGNMENT
+	: '-=';
+
+OP_MODULUS_ASSIGNMENT
+	: '%=';
+
+OP_POWER_ASSIGNMENT
+	: '^=';
+
+//OP_SHIFT_RIGHT_ASSIGNMENT
+//	: '>>=';
+
+//OP_SHIFT_LEFT_ASSIGNMENT
+//	: '<<=';
+
+OP_AND_ASSIGNMENT
+	: '&=';
+
+OP_OR_ASSIGNMENT
+	: '|=';
+
 ACTION
 	: '=>';
-
-RANGE
-	: '..';
 
 ERROR
 	: E '_' N O N E
@@ -277,6 +271,7 @@ ERROR
 	| E '_' I N V A R G
 	| E '_' Q U O T A
 	| E '_' F L O A T
+	| E '_' F I L E
 	;
 
 OBJECT
@@ -284,11 +279,10 @@ OBJECT
 	| '#-' DIGIT+
 	;
 
-BINARY 
-	: '~"' ('~' HEXDIGIT HEXDIGIT)* '"';
-
-HEX
-	: '0x' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT;
+BOOLEAN
+	: T R U E
+	| F A L S E
+	;
 
 STRING 
 	: '"' ( ESC | [ !] | [#-[] | [\]-~] | [\t] )* '"';
@@ -309,11 +303,6 @@ IDENTIFIER
 LETTER
 	: LOWERCASE 
 	| UPPERCASE
-	;
-
-HEXDIGIT
-	: LETTER 
-	| DIGIT
 	;
 
 /* 
@@ -367,4 +356,3 @@ fragment W : [wW];
 fragment X : [xX];
 fragment Y : [yY];
 fragment Z : [zZ];
-
