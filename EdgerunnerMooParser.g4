@@ -124,7 +124,7 @@ map
 	;
 
 mapEntryExpression
-	: STRING '->' expression
+	: expression '->' expression
 	;
 
 expression
