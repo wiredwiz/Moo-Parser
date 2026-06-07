@@ -51,7 +51,7 @@ endifStatement
 
 forClause
 	: FOR IDENTIFIER IN '(' expression ')'
-	| FOR IDENTIFIER IN '[' (expression '..' (expression | '$')) ']';
+	| FOR IDENTIFIER IN '[' expression '..' expression ']';
 
 forStatement
 	: forClause statementList endforStatement;
@@ -163,8 +163,8 @@ expression
 	| lhs=expression operator='-=' rhs=expression										#SubtractAssignmentExpression
 	| literal                                                                           #LiteralExpression
 	| IDENTIFIER																		#IdentifierExpression
-	| '$'																				#LastIndexLiteral
-	| '^'																				#FirstIndexLiteral
+	| {IndexOk()}? '$'																	#LastIndexLiteral
+	| {IndexOk()}? '^'																	#FirstIndexLiteral
 	;
 
 
@@ -179,10 +179,10 @@ literal
 	| map;
 
 index_access
-	: '[' ('^' | '$' | expression) ']';
+	: '[' {EnterIndex();} expression {ExitIndex();} ']';
 
 range_access
-	: '[' ('^' | expression) '..' ('$' | expression) ']';
+	: '[' {EnterIndex();} expression '..' expression {ExitIndex();} ']';
 
 property_access
 	: '.' (IDENTIFIER | '(' expression ')');

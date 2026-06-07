@@ -42,7 +42,7 @@ elseStatement
 
 forStatement
 	: FOR IDENTIFIER IN '(' expression ')' statementList ENDFOR
-	| FOR IDENTIFIER IN '[' (expression '..' (expression | '$')) ']' statementList ENDFOR;
+	| FOR IDENTIFIER IN '[' expression '..' expression ']' statementList ENDFOR;
 
 whileStatement
 	: WHILE IDENTIFIER? '(' expression ')' statementList ENDWHILE;
@@ -89,8 +89,8 @@ expression
 	| expression '?' expression ':' expression											#ConditionalExpression
 	| '`' expression '!' exceptionCodes ('=>' expression)? '\''							#ErrorCatchExpression
 	| '@' expression																	#SplicerExpression
-	| expression '[' expression ']'														#IndexedExpression
-	| expression '[' expression '..' expression ']'										#RangeIndexedExpression
+	| expression '[' {EnterIndex();} expression {ExitIndex();} ']'						#IndexedExpression
+	| expression '[' {EnterIndex();} expression '..' expression {ExitIndex();} ']'		#RangeIndexedExpression
 	| CORE_REFERENCE																	#CorePropertyExpression
 	| expression property																#PropertyExpression
 	| expression verb '(' callArguments ')'												#VerbCallExpression
@@ -129,8 +129,8 @@ expression
 	| list																				#ListLiteralExpression
 	| dictionary																		#DictionaryLiteralExpression
 	| IDENTIFIER																		#IdentifierExpression
-	| '$'																				#LastIndexLiteral
-	| '^'																				#FirstIndexLiteral
+	| {IndexOk()}? '$'																	#LastIndexLiteral
+	| {IndexOk()}? '^'																	#FirstIndexLiteral
 	;
 
 coreProperty
