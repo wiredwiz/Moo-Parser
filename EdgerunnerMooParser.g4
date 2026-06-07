@@ -68,8 +68,11 @@ whileStatement
 endwhileStatement
 	: ENDWHILE;
 
+forkId
+	: IDENTIFIER;
+
 forkClause
-	: FORK '(' expression ')';
+	: FORK forkId? '(' expression ')';
 
 forkStatement
 	: forkClause statementList endforkStatement;
@@ -160,6 +163,8 @@ expression
 	| lhs=expression operator='-=' rhs=expression										#SubtractAssignmentExpression
 	| literal                                                                           #LiteralExpression
 	| IDENTIFIER																		#IdentifierExpression
+	| '$'																				#LastIndexLiteral
+	| '^'																				#FirstIndexLiteral
 	;
 
 

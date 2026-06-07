@@ -48,7 +48,7 @@ whileStatement
 	: WHILE IDENTIFIER? '(' expression ')' statementList ENDWHILE;
 
 forkStatement
-	: FORK '(' expression ')' statementList ENDFORK;
+	: FORK IDENTIFIER? '(' expression ')' statementList ENDFORK;
 
 returnStatement
 	: RETURN (expression)?;
@@ -89,8 +89,8 @@ expression
 	| expression '?' expression ':' expression											#ConditionalExpression
 	| '`' expression '!' exceptionCodes ('=>' expression)? '\''							#ErrorCatchExpression
 	| '@' expression																	#SplicerExpression
-	| expression '[' (expression | '$') ']'												#IndexedExpression
-	| expression '[' (expression '..' (expression | '$')) ']'							#RangeIndexedExpression
+	| expression '[' expression ']'														#IndexedExpression
+	| expression '[' expression '..' expression ']'										#RangeIndexedExpression
 	| CORE_REFERENCE																	#CorePropertyExpression
 	| expression property																#PropertyExpression
 	| expression verb '(' callArguments ')'												#VerbCallExpression
@@ -129,6 +129,8 @@ expression
 	| list																				#ListLiteralExpression
 	| dictionary																		#DictionaryLiteralExpression
 	| IDENTIFIER																		#IdentifierExpression
+	| '$'																				#LastIndexLiteral
+	| '^'																				#FirstIndexLiteral
 	;
 
 coreProperty

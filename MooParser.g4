@@ -68,8 +68,11 @@ whileStatement
 endwhileStatement
 	: ENDWHILE;
 
+forkId
+	: IDENTIFIER;
+
 forkClause
-	: FORK '(' expression ')';
+	: FORK forkId? '(' expression ')';
 
 forkStatement
 	: forkClause statementList endforkStatement;
@@ -139,6 +142,8 @@ expression
 	| lhs=expression operator='=' rhs=expression										#AssignmentExpression
 	| literal																			#LiteralExpression
 	| IDENTIFIER																		#IdentifierExpression
+	| '$'																				#LastIndexLiteral
+	| '^'																				#FirstIndexLiteral
 	;
 
 literal
@@ -150,10 +155,10 @@ literal
 	| list;
 
 index_access
-	: '[' ('$' | expression) ']';
+	: '[' expression ']';
 
 range_access
-	: '[' expression '..' ('$' | expression) ']';
+	: '[' expression '..' expression ']';
 
 property_access
 	: '.' (IDENTIFIER | '(' expression ')');
